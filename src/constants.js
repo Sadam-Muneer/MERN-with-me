@@ -1,1 +1,1 @@
-export const DB_Name = "Youtube";
+export const DB_Name = process.env.DB_Name;

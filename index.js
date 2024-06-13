@@ -1,18 +1,14 @@
-import mongoose from "mongoose";
 import express from "express";
-import DB_Name from "./src/constants";
-const app = express()(async () => {
-  try {
-    await mongoose
-      .connect(`${process.env.MONGODB_URL}/${DB_Name}`)
-      .app.on("error", (error) => {
-        console.log("ERROR", error);
-        throw Error;
-      });
-    app.listen(process.env.PORT, () => {
-      console.log("The application is running on port", process.env.PORT);
-    });
-  } catch (error) {
-    console.log(error);
-  }
-})();
+import connectDB from "./src/db/database.js";
+import dotenv from "dotenv";
+dotenv.config();
+const app = express();
+connectDB();
+app.use(express.json());
+app.get("/", (req, res) => {
+  res.send("Hello, World!");
+});
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
